@@ -1,1 +1,33 @@
-<p>formularios-tipos works!</p>
+<!--
+     ELEX: SpringBoot3.2 + Angular17.3 -> Paso6: Vista componente 
+     OJO, la directiva ngModel da un error hasta que no incluyamos FormsModule
+     en app.module.ts
+-->
+
+<h2>Tipos Expediente - Angular 17!!</h2>
+<!-- src/app/formularios-tipos/formularios-tipos.component.html -->
+
+<section class="container mt-3">
+    <form (ngSubmit)="insertarTipo()">
+      <div class="mb-3">
+        <label for="materia" class="form-label">Materia</label>
+        <input type="text" class="form-control" id="materia" [(ngModel)] = "materia" name="materia">
+      </div>
+      <button type="submit" class="btn btn-primary">Agregar</button>
+    </form>
+  
+    <table class="table mt-3">
+      <thead>
+        <tr>
+          <th scope="col">ID</th>
+          <th scope="col">Materia</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let tipo of tipos">
+          <td>{{ tipo.id }}</td>
+          <td>{{ tipo.materia }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
