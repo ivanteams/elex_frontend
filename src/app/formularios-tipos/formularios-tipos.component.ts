@@ -49,4 +49,42 @@ export class FormulariosTiposComponent implements OnInit{
       this.cargarTipos()
   }
 
+  // ----------------------------------------
+  // NUEVO! ACTUALIZAR Y BORRAR
+  // Paso2: Modificar controlador (componente)
+  // ----------------------------------------
+
+  // Atributo tipo que usamos para actualizar
+  tipoParaActualizar: Tipos | null = null;
+  
+  actualizarTipoFormulario(): void {
+    if (this.tipoParaActualizar && this.materia) {
+      this.servicio.actualizarTipo(this.tipoParaActualizar.id, this.materia).subscribe(resultado => {
+        this.mensaje = "Tipo actualizado";
+        this.cargarTipos();
+        this.tipoParaActualizar = null;
+        this.materia = '---';
+      });
+    }
+  }
+
+  prepararActualizacion(tipo: Tipos): void {
+    this.tipoParaActualizar = tipo;
+    this.materia = tipo.materia;
+  }
+
+  cancelarActualizacion(): void {
+    this.tipoParaActualizar = null;
+    this.materia = '---'; // O el valor por defecto que prefieras
+  }
+
+  // Y el borrado...
+  borrarTipo(id: number): void {
+    if (confirm("¿Estás seguro de querer borrar este tipo?")) {
+      this.servicio.borrarTipo(id).subscribe(() => {
+        this.mensaje = "Tipo borrado";
+        this.cargarTipos();
+      });
+    }
+  }
 }

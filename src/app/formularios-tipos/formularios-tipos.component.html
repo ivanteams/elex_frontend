@@ -7,27 +7,48 @@
 <h2>Tipos Expediente - Angular 17!!</h2>
 <!-- src/app/formularios-tipos/formularios-tipos.component.html -->
 
+<!--
+    // ----------------------------------------
+    // NUEVO! ACTUALIZAR Y BORRAR
+    // Paso3: Modificar vista (componente)
+    // ----------------------------------------
+-->
+
 <section class="container mt-3">
-    <form (ngSubmit)="insertarTipo()">
-      <div class="mb-3">
-        <label for="materia" class="form-label">Materia</label>
-        <input type="text" class="form-control" id="materia" [(ngModel)] = "materia" name="materia">
-      </div>
-      <button type="submit" class="btn btn-primary">Agregar</button>
+    <!-- Ahora el formulario vale tanto para INSERTAR como para ACTUALIZAR -->
+    <form (ngSubmit)="tipoParaActualizar ? actualizarTipoFormulario() : insertarTipo()">
+        <section class="mb-3">
+            <label for="materia" class="form-label">Materia</label>
+            <input type="text" class="form-control" id="materia" [(ngModel)]="materia" name="materia">
+        </section>
+        <!-- Botón para insertar un nuevo tipo -->
+        <button type="button" class="btn btn-primary" (click)="insertarTipo()"
+            *ngIf="!tipoParaActualizar">Insertar</button>
+
+        <!-- Botones para actualizar un tipo existente -->
+        <section *ngIf="tipoParaActualizar">
+            <button type="button" class="btn btn-warning" (click)="actualizarTipoFormulario()">Actualizar</button>
+            <button type="button" class="btn btn-light" (click)="cancelarActualizacion()">Cancelar</button>
+        </section>
     </form>
-  
+
     <table class="table mt-3">
-      <thead>
-        <tr>
-          <th scope="col">ID</th>
-          <th scope="col">Materia</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let tipo of tipos">
-          <td>{{ tipo.id }}</td>
-          <td>{{ tipo.materia }}</td>
-        </tr>
-      </tbody>
+        <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Materia</th>
+            </tr>
+        </thead>
+        <!-- Modifico la tabla para añadir los botones adicionales -->
+        <tbody>
+            <tr *ngFor="let tipo of tipos">
+                <td>{{ tipo.id }}</td>
+                <td>{{ tipo.materia }}</td>
+                <td>
+                    <button class="btn btn-warning btn-sm" (click)="prepararActualizacion(tipo)">Actualizar</button>
+                    <button class="btn btn-danger btn-sm" (click)="borrarTipo(tipo.id)">Borrar</button>
+                </td>
+            </tr>
+        </tbody>
     </table>
-  </section>
+</section>
